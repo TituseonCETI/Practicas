@@ -1,0 +1,151 @@
+Algoritmo diferenciacion_numerica
+	
+	Escribir "hola bienvenido"
+	Escribir "ingrese numero de filas mayor a 2"
+	Leer n
+	
+	Si n > 2 Entonces
+		
+		Dimension filas[n,2]
+		
+		// ----- Lectura de valores x -----
+		i = 1
+		Repetir
+			Escribir "Ingrese el valor de x ", i
+			Leer filas[i,1]
+			
+			Si i = 2 Entonces
+				delta = filas[2,1] - filas[1,1]
+			FinSi
+			
+			Si i >= 3 Entonces
+				Mientras (filas[i,1] - filas[i-1,1]) <> delta Hacer
+					Escribir "Error: Debe ser ", filas[i-1,1] + delta
+					Escribir "Ingrese nuevamente x", i
+					Leer filas[i,1]
+				FinMientras
+			FinSi
+			
+			i = i + 1
+		Hasta Que i > n
+		
+		
+		// ----- Lectura de valores y -----
+		i = 1
+		Repetir
+			Escribir "Ingrese el valor de y ", i
+			Leer filas[i,2]
+			i = i + 1
+		Hasta Que i > n
+		
+		
+		// ---------- IMPRIMIR TABLA ----------
+		Escribir "----- TABLA -----"
+		Para j = 1 Hasta n Con Paso 1 Hacer
+			Escribir "x[",j,"]=", filas[j,1], "   y[",j,"]=", filas[j,2]
+		FinPara
+		Escribir "------------------"
+		
+		
+		// ----------- MENÚ PRINCIPAL ------------
+		Repetir
+			
+			Escribir ""
+			Escribir "Seleccione el metodo a usar:"
+			Escribir "1_ igualmente espaciado"
+			Escribir "2_ extremo izquierdo"
+			Escribir "3_ central"
+			Escribir "4_ extremo derecho"
+			Escribir "5_ salir"
+			Leer op
+			
+			Si (op < 1) O (op > 5) Entonces
+				Escribir "Opción inválida."
+			SiNo
+				
+				Si op <> 5 Entonces
+					
+					Escribir "Ingrese el indice i (1 a ", n, ")"
+					Leer i
+					
+					Mientras (i < 1) O (i > n) Hacer
+						Escribir "Índice inválido."
+						Leer i
+					FinMientras
+					
+					
+					Segun op Hacer
+						
+							// ============================
+							// 1) IGUALMENTE ESPACIADO
+							// ============================
+						1:
+							x0 = filas[1,1]
+							x = filas[i,1]
+							y0 = filas[1,2]
+							y1 = filas[2,2]
+							y2 = filas[3,2]
+							
+							der = ((2*x - 2*x0 - 3*delta) / (2*delta^2)) * y0 + ((2*x - 2*x0 - 2*delta) / (-delta^2)) * y1 + ((2*x - 2*x0 - delta) / (2*delta^2)) * y2
+
+							Escribir "Derivada igualmente espaciado = ", der
+							
+							
+							// ============================
+							// 2) EXTREMO IZQUIERDO
+							// ============================
+						2:
+							Si i > n-2 Entonces
+								Escribir "No hay suficientes puntos."
+							SiNo
+								y0 = filas[i,2]
+								y1 = filas[i+1,2]
+								y2 = filas[i+2,2]
+								der = (-1.5*y0 + 2*y1 - 0.5*y2) / delta
+								Escribir "Derivada extremo izquierdo = ", der
+							FinSi
+							
+							
+							// ============================
+							// 3) CENTRAL
+							// ============================
+						3:
+							Si (i = 1) O (i = n) Entonces
+								Escribir "No se puede aplicar central en extremos."
+							SiNo
+								der = (filas[i+1,2] - filas[i-1,2]) / (2*delta)
+								Escribir "Derivada central = ", der
+							FinSi
+							
+							
+							// ============================
+							// 4) EXTREMO DERECHO
+							// ============================
+						4:
+							Si i < 3 Entonces
+								Escribir "No hay suficientes puntos."
+							SiNo
+								y0 = filas[i,2]
+								y1 = filas[i-1,2]
+								y2 = filas[i-2,2]
+								der = (0.5*y2 - 2*y1 + 1.5*y0) / delta
+								Escribir "Derivada extremo derecho = ", der
+							FinSi
+							
+					FinSegun
+					
+					Escribir ""
+					Escribir "Presione ENTER para regresar al menú..."
+					Leer pausa
+					
+				FinSi
+				
+			FinSi
+			
+		Hasta Que op = 5
+		
+	SiNo
+		Escribir "Error num minimo de filas 3"
+	FinSi
+	
+FinAlgoritmo
